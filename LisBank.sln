@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LisBank.Infrastructure", "L
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F3F2C3F3-062C-4BA2-8735-C6933BAC445B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{698BD3E2-96DB-4A9F-B753-E0421769843B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LisBank.UnitTests", "LisBank.UnitTests\LisBank.UnitTests.csproj", "{6986F8AC-D75D-4BF3-95AB-F2537A0439DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +37,18 @@ Global
 		{F3F2C3F3-062C-4BA2-8735-C6933BAC445B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3F2C3F3-062C-4BA2-8735-C6933BAC445B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3F2C3F3-062C-4BA2-8735-C6933BAC445B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6986F8AC-D75D-4BF3-95AB-F2537A0439DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6986F8AC-D75D-4BF3-95AB-F2537A0439DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6986F8AC-D75D-4BF3-95AB-F2537A0439DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6986F8AC-D75D-4BF3-95AB-F2537A0439DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38AA20FD-032D-4CEE-B836-F9CA81616369}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6986F8AC-D75D-4BF3-95AB-F2537A0439DB} = {698BD3E2-96DB-4A9F-B753-E0421769843B}
 	EndGlobalSection
 EndGlobal
