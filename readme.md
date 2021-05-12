@@ -18,7 +18,7 @@ La opción mas fácil para ejecutar el proyecto es desde visual studio:
  - Ejecutar el proyecto de docker-compose
 
 Ejecutar desde la terminal
- - Posicionate en la raíz del proyecto (carpeta "Comedores universitarios)
+ - Posicionate en la raíz del proyecto (carpeta "LisBank-API")
  - Ejecutar los siguentes comandos en la terminal:
 	 -  `docker-compose build`	
 	 -  `docker-compose up -d`
@@ -28,5 +28,5 @@ Puedes verificar que los contenedores estén corriendo y al mismo tiempo el puer
 
  - `docker-compose ps -a`
 
-Podrás observar que el servidor de base de datos y el de la API están ejecutándose y en que puertos. Al visitar *localhost:5001/swagger* entraras a la documentación del servidor, ahí puedes ver todos los servicios definidos en él y la información necesaria para su ejecución. 
+Podrás observar que el servidor de base de datos y el de la API están ejecutándose y en que puertos. Al visitar *localhost:5001/swagger* entrarás a la documentación del servidor, ahí puedes ver todos los servicios definidos en él y la información necesaria para su ejecución. 
 
