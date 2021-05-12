@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  lisbank.api:
+    image: ${DOCKER_REGISTRY-}lisbank
+    build:
+      context: .
+      dockerfile: LisBank.API/Dockerfile
+    #depends_on:
+     # - database
+  database:
+    build:
+      context: .
+      dockerfile: Database/Dockerfile

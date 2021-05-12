@@ -1,0 +1,14 @@
+CREATE DATABASE LisBank
+GO
+USE LisBank;
+GO
+
+CREATE TABLE Client
+(
+  id INT PRIMARY KEY IDENTITY(1,1),
+  name varchar(50) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  password VARCHAR(250) NOT NULL,
+);
+
+GO
