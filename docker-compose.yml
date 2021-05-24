@@ -6,8 +6,8 @@ services:
     build:
       context: .
       dockerfile: LisBank.API/Dockerfile
-    #depends_on:
-     # - database
+    depends_on:
+      - database
   database:
     build:
       context: .

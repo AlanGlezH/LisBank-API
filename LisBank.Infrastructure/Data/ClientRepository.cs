@@ -12,12 +12,12 @@ namespace LisBank.Infrastructure.Repositories
     {
         private readonly LisBankContext _context;
 
-        public ClientRepository(LisBankContext context)
+        public ClientRepository(LisBankContext lisBankContext)
         {
-            _context = context;
+            _context = lisBankContext;
         }
 
-        public async Task<IEnumerable<Client>> GetClients()
+        public async Task<IEnumerable<Core.Entities.Client>> GetClients()
         {
             //var client1 = new Client { Id = 1, Name = "Alan González" };
             //var client2 = new Client { Id = 1, Name = "Alan González" };
@@ -27,9 +27,20 @@ namespace LisBank.Infrastructure.Repositories
             //    client1,
             //    client2
             //};
-            var listClients =  await _context.Clients.ToListAsync();
+            try
+            {
+                var listClients = new List<Core.Entities.Client>();
+                var logins = await _context.Authentications.ToListAsync();
 
-            return listClients;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            
+            
+
+            return null;
         }
     }
 }

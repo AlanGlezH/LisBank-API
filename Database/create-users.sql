@@ -1,34 +1,32 @@
 GO
-USE LisBank;
+USE LisBank
 GO
 
-INSERT INTO Client
-  (Name, email, password)
+INSERT INTO Authentication
+  (Username, Password)
 VALUES
-  ('Alan González Heredia', 'alan@mail.com',
+  ('alan@mail.com',
     '10000.UtDXAytiVlLC098R8MWWQA==.dsxzB/l16ivIZk1Q6ikuDX+yXH2xoy/28ig/yBmMYwM='
   )
 
-INSERT INTO Client
-  (Name, email, password)
+INSERT INTO Authentication
+  (Username, Password)
 VALUES
-  ('Victor Manuel Niño Martínez', 'victor@mail.com',
+  ('victor@mail.com',
     '10000.UtDXAytiVlLC098R8MWWQA==.dsxzB/l16ivIZk1Q6ikuDX+yXH2xoy/28ig/yBmMYwM='
   )
 
-
-INSERT INTO Client
-  (Name, email, password)
+INSERT INTO Authentication
+ (Username, Password)
 VALUES
-  ('Irving Iván Gumesindo Trujillo', 'irving@mail.com',
+  ('irving@mail.com',
     '10000.UtDXAytiVlLC098R8MWWQA==.dsxzB/l16ivIZk1Q6ikuDX+yXH2xoy/28ig/yBmMYwM='
   )
 
-INSERT INTO Client
-  (Name, email, password)
+INSERT INTO Authentication
+  (Username, Password)
 VALUES
-  ('Jose Miguel Quirez Benitez', 'jose@mail.com',
+  ('jose@mail.com',
     '10000.UtDXAytiVlLC098R8MWWQA==.dsxzB/l16ivIZk1Q6ikuDX+yXH2xoy/28ig/yBmMYwM='
   )
-
 GO
