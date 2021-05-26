@@ -82,7 +82,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Client](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[A] [varchar](50) NOT NULL,
+	[LastName] [varchar](50) NOT NULL,
 	[ProofIncome] [varchar](50) NULL,
 	[Address] [varchar](150) NOT NULL,
 	[Email] [varchar](50) NOT NULL,

@@ -38,8 +38,8 @@ namespace LisBank.API
                 options.UseSqlServer(Configuration.GetConnectionString("LisBank"))
             );
 
-            services.AddTransient<IClientService, ClientService>();
-            services.AddTransient<IClientRepository, ClientRepository>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
 
             services.AddSwaggerGen(c =>
             {

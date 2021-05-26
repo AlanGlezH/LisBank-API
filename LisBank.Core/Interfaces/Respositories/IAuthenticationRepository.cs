@@ -4,8 +4,8 @@ using LisBank.Core.Entities;
 
 namespace LisBank.Core.Interfaces.Respositories
 {
-    public interface IClientRepository
+    public interface IAuthenticationRepository
     {
-        Task<IEnumerable<Client>> GetClients();
+        Task<IEnumerable<Authentication>> GetAuthentications();
     }
 }

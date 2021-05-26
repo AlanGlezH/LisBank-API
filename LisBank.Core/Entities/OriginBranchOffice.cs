@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace LisBank.Infrastructure.Data
+namespace LisBank.Core.Entities
 {
     public partial class OriginBranchOffice
     {
