@@ -21,5 +21,16 @@ namespace LisBank.Core.Services
 
             return listAuthentications;
         }
+
+        public async Task<Authentication> Login(UserLogin login)
+        {
+            var authentication = await _authenticationRepository.GetLoginByCredentials(login);
+            return authentication;
+        }
+
+        public Task<Authentication> RegisterUser(Authentication authentication)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

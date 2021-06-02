@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LisBank.Core.Entities;
 using LisBank.Core.Interfaces.Respositories;
@@ -23,6 +24,17 @@ namespace LisBank.Infrastructure.Repositories
             authentications = await _context.Authentications.ToListAsync();
 
             return authentications;
+        }
+
+        public async Task<Authentication> GetLoginByCredentials(UserLogin login)
+        {
+            var authentication = await _context.Authentications.Where(auth => auth.Username == login.User).FirstOrDefaultAsync();
+            return authentication;
+        }
+
+        public Task<Authentication> InsertAuthentication(Authentication authentication)
+        {
+            throw new NotImplementedException();
         }
     }
 }

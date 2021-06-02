@@ -1,22 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using LisBank.Core.Interfaces.Respositories;
 using LisBank.Core.Interfaces.Services;
 using LisBank.Core.Services;
 using LisBank.Infrastructure.Data;
+using LisBank.Infrastructure.Interfaces;
 using LisBank.Infrastructure.Repositories;
+using LisBank.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using LisBank.Infrastructure.Options;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Routing;
+using System.Text.RegularExpressions;
+using LisBank.API.ParameterTransformers;
 
 namespace LisBank.API
 {
@@ -32,7 +35,12 @@ namespace LisBank.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+            });
+
+            services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
 
             services.AddDbContext<LisBankContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LisBank"))
@@ -40,6 +48,25 @@ namespace LisBank.API
 
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddSingleton<IPasswordService, PasswordService>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Authentication:Issuer"],
+                    ValidAudience = Configuration["Authentication:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"])),
+                };
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -58,11 +85,11 @@ namespace LisBank.API
 
             }
 
-
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -5,20 +5,20 @@ GO
 INSERT INTO Authentication
   (Username, Password)
 VALUES
-  ('alan@mail.com', '123456789')
+  ('alan@gmail.com', '10000.NzrBHw1FwUDAcgEYtKHYlA==./CwyBYvmknzuw/Qc0XHKYM6c5farFkPwbqiKvPvRdog=')
 
 INSERT INTO Authentication
   (Username, Password)
 VALUES
-  ('victor@mail.com','123456789'  )
+  ('victor@gmail.com','10000.NzrBHw1FwUDAcgEYtKHYlA==./CwyBYvmknzuw/Qc0XHKYM6c5farFkPwbqiKvPvRdog=')
 
 INSERT INTO Authentication
  (Username, Password)
 VALUES
-  ('irving@mail.com','10000.UtDXAytiVlLC098R8MWWQA==.dsxzB/l16ivIZk1Q6ikuDX+yXH2xoy/28ig/yBmMYwM=')
+  ('gume@gmail.com','10000.NzrBHw1FwUDAcgEYtKHYlA==./CwyBYvmknzuw/Qc0XHKYM6c5farFkPwbqiKvPvRdog=')
 
 INSERT INTO Authentication
   (Username, Password)
 VALUES
-  ('jose@mail.com','10000.UtDXAytiVlLC098R8MWWQA==.dsxzB/l16ivIZk1Q6ikuDX+yXH2xoy/28ig/yBmMYwM=')
+  ('jose@gmail.com','10000.NzrBHw1FwUDAcgEYtKHYlA==./CwyBYvmknzuw/Qc0XHKYM6c5farFkPwbqiKvPvRdog=')
 GO
