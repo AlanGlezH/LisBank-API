@@ -6,11 +6,13 @@ using LisBank.API.Responses;
 using LisBank.Core.DTOs;
 using LisBank.Core.Entities;
 using LisBank.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LisBank.API.Controllers
 {
     [ApiController]
+    [Authorize]
     public class AccountsController : Controller
     {
         private readonly IDebitAccountService _debitAccountService;

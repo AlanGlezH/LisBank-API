@@ -80,9 +80,29 @@ namespace LisBank.API
                 };
             });
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(doc =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LisBank.API", Version = "v1" });
+                doc.SwaggerDoc("v1", new OpenApiInfo { Title = "LisBank.API", Version = "v1" });
+                doc.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                doc.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                     new OpenApiSecurityScheme
+                     {
+                       Reference = new OpenApiReference
+                       {
+                         Type = ReferenceType.SecurityScheme,
+                         Id = "Bearer"
+                       }
+                    },
+                    new string[] { }
+                    }
+                });
             });
         }
 
