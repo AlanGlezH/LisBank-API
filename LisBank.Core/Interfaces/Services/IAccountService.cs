@@ -5,8 +5,8 @@ using LisBank.Core.Entities;
 
 namespace LisBank.Core.Interfaces.Services
 {
-    public interface IClientService
+    public interface IAccountService
     {
-        Task<Client> GetClient(int idAuthentication);
+        Task<IEnumerable<Account>> GetAccounts(int idClient);
     }
 }

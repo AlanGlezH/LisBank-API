@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Routing;
 using System.Text.RegularExpressions;
 using LisBank.API.ParameterTransformers;
+using System;
 
 namespace LisBank.API
 {
@@ -35,10 +36,14 @@ namespace LisBank.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddControllers(options =>
             {
                 options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
-            });
+            }).AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
 
@@ -49,6 +54,13 @@ namespace LisBank.API
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
             services.AddSingleton<IPasswordService, PasswordService>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IDebitAccountService, DebitAccountService>();
+            services.AddTransient<IDebitAccountRepository, DebitAccountRepository>();
+            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IClientRepository, ClientRepository>();
+            services.AddTransient<ICreditAccountService, CreditAccountService>();
+            services.AddTransient<ICreditAccountRepository, CreditAccountRepository>();
 
             services.AddAuthentication(options =>
             {
