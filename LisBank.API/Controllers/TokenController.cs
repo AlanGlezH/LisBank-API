@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,38 +40,55 @@ namespace LisBank.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Authentication(UserLogin login)
         {
-            var validation = await IsValidUser(login);
-            if (validation.Item1)
+            var (isValid, authentication) = await IsValidUser(login);
+            if (!isValid)
             {
-                var client = await _clientService.GetClient(validation.Item2.Id);
-                var clientDto = _mapper.Map<ClientDTO>(client);
-                var token = GenerateToken(validation.Item2);
-                var response = new ApiResponse<ClientDTO>(clientDto);
-
-                return Ok(new { response, token });
+                return NotFound();
             }
+            var client = await _clientService.GetClient(authentication.Id);
+            var accessToken = GenerateToken(authentication.Username, DateTime.UtcNow.AddDays(1));
+            var refreshToken = GenerateToken(authentication.Username, DateTime.UtcNow.AddDays(3));
+            var clientDto = _mapper.Map<ClientDTO>(client);
+            var response = new ApiResponse<ClientDTO>(clientDto);
 
-            return NotFound();
+            return Ok(new { response, accessToken, refreshToken });
+
         }
 
-        private async Task<(bool, Authentication)> IsValidUser(UserLogin login)
+        [HttpPost("refresh/{refreshToken}")]
+        public IActionResult Refresh(string refreshToken)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var jwtRefresh = jwtTokenHandler.ReadJwtToken(refreshToken);
+
+            if (DateTime.Now > jwtRefresh.ValidTo)
+            {
+                return Problem("Token has expirated");
+            }
+            var username = jwtRefresh.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault();
+            var accessToken = GenerateToken(username.Value, DateTime.UtcNow.AddDays(1));
+            refreshToken = GenerateToken(username.Value, DateTime.UtcNow.AddDays(3));
+
+            return Ok(new { accessToken, refreshToken });
+
+        }
+
+        private async Task<(bool isValid, Authentication authentication)> IsValidUser(UserLogin login)
         {
             var authentication = await _authenticationService.Login(login);
-            var isValid = authentication is null ?
-                false :
-                _passwordService.Check(authentication.Password, login.Password);
+            var isValid = authentication is not null && _passwordService.Check(authentication.Password, login.Password);
 
             return (isValid, authentication);
         }
 
-        private string GenerateToken(Authentication authentication)
+        private string GenerateToken(string username, DateTime expirationDate)
         {
             var _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
             var signingCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
             var header = new JwtHeader(signingCredentials);
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, authentication.Username),
+                new Claim(ClaimTypes.Name, username),
             };
             var payload = new JwtPayload
             (
@@ -78,7 +96,7 @@ namespace LisBank.API.Controllers
                 _configuration["Authentication:Audience"],
                 claims,
                 DateTime.Now,
-                DateTime.UtcNow.AddDays(1)
+                expirationDate
             );
             var token = new JwtSecurityToken(header, payload);
 
