@@ -22,6 +22,11 @@ namespace LisBank.Infrastructure.Mappings
             CreateMap<Client, ClientDTO>()
                 .ReverseMap();
 
+            CreateMap<Employee, EmployeeDTO>()
+                .ReverseMap();
+
+            CreateMap<Role, RoleDTO>()
+                .ReverseMap();
        
         }
     }

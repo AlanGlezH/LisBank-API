@@ -24,15 +24,22 @@ namespace LisBank.API.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly IPasswordService _passwordService;
         private readonly IClientService _clientService;
+        private readonly IEmployeeService _employeeService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
 
-        public TokenController(IAuthenticationService authenticationService, IPasswordService passwordService, IClientService clientService, IMapper mapper, IConfiguration configuration)
+        public TokenController(IAuthenticationService authenticationService, IPasswordService passwordService,
+            IClientService clientService, IEmployeeService employeeService,
+            ITokenService tokenService,IMapper mapper,
+            IConfiguration configuration)
         { 
             _authenticationService = authenticationService;
             _passwordService = passwordService;
             _clientService = clientService;
+            _employeeService = employeeService;
+            _tokenService = tokenService;
             _mapper = mapper;
             _configuration = configuration;
         }
@@ -45,32 +52,28 @@ namespace LisBank.API.Controllers
             {
                 return NotFound();
             }
-            var client = await _clientService.GetClient(authentication.Id);
-            var accessToken = GenerateToken(authentication.Username, DateTime.UtcNow.AddDays(1));
-            var refreshToken = GenerateToken(authentication.Username, DateTime.UtcNow.AddDays(3));
-            var clientDto = _mapper.Map<ClientDTO>(client);
-            var response = new ApiResponse<ClientDTO>(clientDto);
+            var userDto = await GetRelatedUserDto(authentication);
+            var accessToken = _tokenService.GenerateAccessToken(DateTime.UtcNow.AddDays(1), authentication.Username, userDto.Id.ToString());
+            var refreshToken = _tokenService.GenerateRefreshToken(DateTime.UtcNow.AddDays(3), authentication.Username, userDto.Id.ToString());
+            var response = new ApiResponse<dynamic>(userDto);
 
-            return Ok(new { response, accessToken, refreshToken });
+            return Ok(new { response.Data, accessToken, refreshToken });
 
         }
 
         [HttpPost("refresh/{refreshToken}")]
-        public IActionResult Refresh(string refreshToken)
+        public IActionResult Refresh(string token)
         {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var jwtRefresh = jwtTokenHandler.ReadJwtToken(refreshToken);
-
-            if (DateTime.Now > jwtRefresh.ValidTo)
+            try
             {
-                return Problem("Token has expirated");
+                var (accessToken, refreshToken) = _tokenService.RefreshToken(token);
+
+                return Ok(new { accessToken, refreshToken });
             }
-            var username = jwtRefresh.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault();
-            var accessToken = GenerateToken(username.Value, DateTime.UtcNow.AddDays(1));
-            refreshToken = GenerateToken(username.Value, DateTime.UtcNow.AddDays(3));
-
-            return Ok(new { accessToken, refreshToken });
-
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         private async Task<(bool isValid, Authentication authentication)> IsValidUser(UserLogin login)
@@ -81,7 +84,19 @@ namespace LisBank.API.Controllers
             return (isValid, authentication);
         }
 
-        private string GenerateToken(string username, DateTime expirationDate)
+       private async Task<dynamic> GetRelatedUserDto(Authentication authentication)
+       {
+            var client = await _clientService.GetClient(authentication.Id);
+            if (client != null) return _mapper.Map<ClientDTO>(client);
+
+            var employee = await _employeeService.GetEmployeeByIdAuth(authentication.Id);
+            if (employee != null) return _mapper.Map<EmployeeDTO>(employee);
+
+            return null;
+
+        }
+
+        private string GenerateToken(string username, DateTime expirationDate, string idUser)
         {
             var _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]));
             var signingCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
@@ -89,6 +104,7 @@ namespace LisBank.API.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, username),
+                new Claim("id", idUser),
             };
             var payload = new JwtPayload
             (

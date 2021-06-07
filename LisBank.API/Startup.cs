@@ -17,8 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using LisBank.Infrastructure.Options;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Routing;
-using System.Text.RegularExpressions;
 using LisBank.API.ParameterTransformers;
 using System;
 
@@ -61,6 +59,9 @@ namespace LisBank.API
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<ICreditAccountService, CreditAccountService>();
             services.AddTransient<ICreditAccountRepository, CreditAccountRepository>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<ITokenService, TokenService>();
 
             services.AddAuthentication(options =>
             {
