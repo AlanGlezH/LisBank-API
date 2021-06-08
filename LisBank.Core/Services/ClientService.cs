@@ -10,7 +10,7 @@ namespace LisBank.Core.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
-
+        
         public ClientService(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
@@ -19,6 +19,13 @@ namespace LisBank.Core.Services
         public async Task<Client> GetClient(int idAuthentication)
         {
             var client = await _clientRepository.GetClient(idAuthentication);
+            return client;
+        }
+
+        public async Task<IEnumerable<Client>> GetClientsBySearchString(string searchString)
+        {
+            var client = await _clientRepository.GetClientsBySearchString(searchString);
+
             return client;
         }
     }

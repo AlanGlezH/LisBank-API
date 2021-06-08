@@ -29,6 +29,16 @@ INSERT INTO Client
 VALUES
   ('Alan', 'Gonzalez Heredia', 'Del museo 333', 'alan@gmail.com', '1998-04-14', 'path', '12345', '123435434', 1)
 GO
+INSERT INTO Client
+  (Name, LastName, Address, Email, Birthday, Ine, NoClient, PhoneNumber, IdAuthentication)
+VALUES
+  ('Victor Manuel', 'Niño Martínez', 'Av Xalapa', 'victor@gmail.com', '1998-04-14', 'path', '12345', '123435434', 1)
+GO
+INSERT INTO Client
+  (Name, LastName, Address, Email, Birthday, Ine, NoClient, PhoneNumber, IdAuthentication)
+VALUES
+  ('Jose Miguel', 'Quiroz Benítez', 'Av Xalapa', 'chino@gmail.com', '1998-04-14', 'path', '12345', '123435434', 1)
+GO
 INSERT INTO Account
   ( Clabe, CreatedDate, Number, AvailableBalance, IdClient)
 VALUES

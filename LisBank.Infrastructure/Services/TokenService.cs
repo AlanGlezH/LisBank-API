@@ -46,7 +46,7 @@ namespace LisBank.Core.Services
             {
                 jwtTokenHandler.ValidateToken(refreshToken, jwtValidationParameters, out SecurityToken validatedToken);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 throw new Exception("Invalid token.");
             }

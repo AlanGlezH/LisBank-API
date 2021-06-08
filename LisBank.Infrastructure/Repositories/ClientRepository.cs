@@ -24,5 +24,15 @@ namespace LisBank.Infrastructure.Repositories
 
             return client;
         }
+
+        public async Task<IEnumerable<Client>> GetClientsBySearchString(string searchString)
+        {
+            var clients = await _lisBankContext.Clients.
+                Where(client => client.Name.Contains(searchString) || client.LastName.Contains(searchString) ||
+                client.Email.Contains(searchString))
+                .ToListAsync();
+
+            return clients;
+        }
     }
 }
