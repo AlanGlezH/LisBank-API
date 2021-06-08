@@ -13,12 +13,12 @@ namespace LisBank.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ClientController : Controller
+    public class ClientsController : Controller
     {
         private readonly IClientService _clientService;
         private readonly IMapper _mapper;
 
-        public ClientController(IClientService clientService, IMapper mapper)
+        public ClientsController(IClientService clientService, IMapper mapper)
         {
             _clientService = clientService;
             _mapper = mapper;
