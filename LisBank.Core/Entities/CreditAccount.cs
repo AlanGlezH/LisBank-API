@@ -25,3 +25,4 @@ namespace LisBank.Core.Entities
         public virtual ICollection<Payment> Payments { get; set; }
     }
 }
+ 

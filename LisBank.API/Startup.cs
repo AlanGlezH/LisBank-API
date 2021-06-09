@@ -64,6 +64,8 @@ namespace LisBank.API
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<IPaymentService, PaymentService>();
 
             services.AddAuthentication(options =>
             {

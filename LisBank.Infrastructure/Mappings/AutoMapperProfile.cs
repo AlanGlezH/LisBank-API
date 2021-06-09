@@ -34,6 +34,9 @@ namespace LisBank.Infrastructure.Mappings
 
             CreateMap<Origin, OriginDTO>()
                 .ReverseMap();
+
+            CreateMap<Payment, PaymentDTO>()
+                .ReverseMap();
        
         }
     }

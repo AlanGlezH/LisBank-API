@@ -81,3 +81,15 @@ INSERT INTO [Transaction]
 VALUES
 ('Transferencia bancaria','2021-01-20', 1800, '2344235', 'DEPOSIT', 1, 1)
 GO
+
+INSERT INTO [Payment] 
+  (TotalDebt, PaymentDate, Monthlytotal, Minimum, PaymentMade, Cycle, Recharge, IdCreditAccount)
+VALUES
+  (2456, '2021-01-13', 460, 1234, 400, '2021-01-01', 0, 1)
+
+INSERT INTO [Payment] 
+  (TotalDebt, PaymentDate, Monthlytotal, Minimum, PaymentMade, Cycle, Recharge, IdCreditAccount)
+VALUES
+  (2456, '2021-02-10', 1460, 1234 , 400, '2021-02-01', 0, 1)
+GO
+
