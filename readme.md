@@ -30,3 +30,8 @@ Puedes verificar que los contenedores estén corriendo y al mismo tiempo el puer
 
 Podrás observar que el servidor de base de datos y el de la API están ejecutándose y en que puertos. Al visitar *localhost:5001/swagger* entrarás a la documentación del servidor, ahí puedes ver todos los servicios definidos en él y la información necesaria para su ejecución. 
 
+Puedes autenticarte con la API en el servicio /token. Dicho servicio retornará un token JWT si las credenciales son correctas. El token se debe ingresar en el apartado de authorize de swagger, el formato debe ser como el siguiente:
+
+bearer 2q34ew2e8c9c3...
+
+Una vez que hayas realizado lo anterior podrás ejecutar peticiones en los endpoints. Cada token tiene un tiempo de expiración de un día para que se pueda interactuar con la API. Esto puede modificarse en el código.

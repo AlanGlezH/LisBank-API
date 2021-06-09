@@ -17,8 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using LisBank.Infrastructure.Options;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Routing;
-using System.Text.RegularExpressions;
 using LisBank.API.ParameterTransformers;
 using System;
 
@@ -61,6 +59,13 @@ namespace LisBank.API
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<ICreditAccountService, CreditAccountService>();
             services.AddTransient<ICreditAccountRepository, CreditAccountRepository>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<IPaymentService, PaymentService>();
 
             services.AddAuthentication(options =>
             {
@@ -80,9 +85,29 @@ namespace LisBank.API
                 };
             });
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(doc =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "LisBank.API", Version = "v1" });
+                doc.SwaggerDoc("v1", new OpenApiInfo { Title = "LisBank.API", Version = "v1" });
+                doc.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                doc.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                     new OpenApiSecurityScheme
+                     {
+                       Reference = new OpenApiReference
+                       {
+                         Type = ReferenceType.SecurityScheme,
+                         Id = "Bearer"
+                       }
+                    },
+                    new string[] { }
+                    }
+                });
             });
         }
 
