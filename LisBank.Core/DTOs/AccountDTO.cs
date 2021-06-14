@@ -13,7 +13,6 @@ namespace LisBank.Core.DTOs
         public string Number { get; set; }
         public double AvailableBalance { get; set; }
         public int IdClient { get; set; }
-        
-
+        public CardDTO Card { get; set; }
     }
 }
