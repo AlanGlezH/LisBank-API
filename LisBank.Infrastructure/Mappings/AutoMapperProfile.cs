@@ -37,6 +37,24 @@ namespace LisBank.Infrastructure.Mappings
 
             CreateMap<Payment, PaymentDTO>()
                 .ReverseMap();
+
+            CreateMap<Account, InsertDebitAccountDTO>()
+                .ReverseMap();
+
+            CreateMap<AccountDTO, InsertDebitAccountDTO>()
+                .ReverseMap();
+
+            CreateMap<DebitAccount, InsertDebitAccountDTO>()
+                .ReverseMap();
+
+            CreateMap<DebitAccountDTO, InsertDebitAccountDTO>()
+                .ReverseMap();
+
+            CreateMap<Client, InsertDebitAccountDTO>()
+                .ReverseMap();
+
+            CreateMap<Client, InsertDebitAccountDTO> ()
+                .ReverseMap();
        
         }
     }
