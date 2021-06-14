@@ -93,3 +93,23 @@ VALUES
   (2456, '2021-02-10', 1460, 1234 , 400, '2021-02-01', 0, 1)
 GO
 
+INSERT INTO [Card] 
+  (Cvv, DueDate, Nip, Number, IdAccount)
+VALUES
+  ('007', '04/27', 0809, 3445362738497346, 1)
+GO
+
+INSERT INTO [Card] 
+  (Cvv, DueDate, Nip, Number, IdAccount)
+VALUES
+  ('007', '04/27', 0809, 3445362738497346, 1)
+GO
+
+INSERT INTO [Card] 
+  (Cvv, DueDate, Nip, Number, IdAccount)
+VALUES
+  ('003', '04/24', 0809, 3445362738497346, 2)
+GO
+
+
+

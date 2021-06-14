@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -19,12 +18,16 @@ namespace LisBank.API.Controllers
     {
         private readonly IDebitAccountService _debitAccountService;
         private readonly ICreditAccountService _creditAccountService;
+        private readonly ICardService _cardService;
         private readonly IMapper _mapper;
 
-        public AccountsController(IDebitAccountService debitAccountService, ICreditAccountService creditAccountService, IMapper mapper)
+        public AccountsController(IDebitAccountService debitAccountService,
+            ICreditAccountService creditAccountService, IMapper mapper,
+            ICardService cardService)
         {
             _debitAccountService = debitAccountService;
             _creditAccountService = creditAccountService;
+            _cardService = cardService;
             _mapper = mapper;
         }
 
@@ -69,15 +72,32 @@ namespace LisBank.API.Controllers
             {
                 return Problem(ex.Message);
             }
-            var accountsDto = _mapper.Map<IEnumerable<DebitAccountDTO>>(debitAccounts);
+            var debitAccountsDto = _mapper.Map<IEnumerable<DebitAccountDTO>>(debitAccounts);
             var creditAccountsDto = _mapper.Map<IEnumerable<CreditAccountDTO>>(creditAccounts);
+            await GetCards(debitAccountsDto);
+            await GetCards(creditAccountsDto);
             var response = new ApiResponse<dynamic>(new
             {
-                DebitAccounts = accountsDto,
+                DebitAccounts = debitAccountsDto,
                 CreditAccounts = creditAccountsDto
             });
 
             return Ok(response);
+        }
+
+        private async Task<CardDTO> GetCard(int id)
+        {
+            var card = await _cardService.GetCardByAccountId(id);
+            var carDto = _mapper.Map<CardDTO>(card);
+            return carDto;
+        }
+
+        private async Task GetCards(dynamic listAccounts)
+        {
+            foreach (dynamic account in listAccounts)
+            {
+                account.Account.Card = await GetCard(account.Account.Id);
+            }
         }
     }
 }
