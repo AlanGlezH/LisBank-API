@@ -21,5 +21,18 @@ namespace LisBank.Core.Services
             var debitAccounts = await _debitAccountRepository.GetDebitAccounts(idClient);
             return debitAccounts;
         }
+
+        public async Task<DebitAccount> InsertDebitAccount(Account account, Client client, string password)
+        {
+            Authentication authentication = new()
+            {
+                Username = client.Email,
+                Password = password
+            };
+
+            var createdDebitAccount = await _debitAccountRepository.InsertDebitAccount(authentication, account, client);
+
+            return createdDebitAccount;
+        }
     }
 }

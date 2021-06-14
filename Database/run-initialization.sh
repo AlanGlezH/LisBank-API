@@ -1,3 +1,4 @@
+#! /bin/sh
 # Wait to be sure that SQL Server came up
 sleep 90s
 

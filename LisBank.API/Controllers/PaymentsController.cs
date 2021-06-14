@@ -24,13 +24,13 @@ namespace LisBank.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("credit-account/{idCreditAccount}/[controller]")]
-        public async Task<IActionResult> GetPaymentsByCredAccountId(int idCreditAccount)
+        [HttpGet("credit-account/{id}/[controller]")]
+        public async Task<IActionResult> GetPaymentsByCredAccountId(int id)
         {
             IEnumerable<Payment> payments;
             try
             {
-                payments = await _paymentService.GetPaymentsByCreditAccountId(idCreditAccount);
+                payments = await _paymentService.GetPaymentsByCreditAccountId(id);
             }
             catch(Exception ex)
             {
